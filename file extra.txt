@@ -1,0 +1,53 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+   fstream file;
+
+   // Opening file "sample.txt" in out(write) mode
+   file.open("sample.txt", ios::out);
+
+   if (!file)
+   {
+       cout << "Error in creating file!!!" << endl;
+       return 0;
+   }
+
+   cout << "File created successfully." << endl;
+
+   // Write text into file
+   string name;
+   cout << "Enter the name of the student: " << endl;
+   getline(cin, name);  // Using getline to allow names with spaces
+
+   int rollno;
+   cout << "Enter the roll number of the student: " << endl;
+   cin >> rollno;
+
+   file << name << endl;
+   file << rollno << endl;
+   file.close();
+
+   // Open file again in read mode
+   file.open("sample.txt", ios::in);
+
+   if (!file)
+   {
+       cout << "Error in opening file!!!" << endl;
+       return 0;
+   }
+
+   // Read until the end of the file is not found
+   string content;
+   cout << "File content: " << endl;
+   while (getline(file, content))
+   {
+       cout << content << endl;
+   }
+
+   file.close();
+   return 0;
+}
+

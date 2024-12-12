@@ -1,0 +1,146 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class PersonalRecord {
+public:
+    string name;
+    string dob; // Date of Birth in format YYYY-MM-DD
+    string phoneNumber;
+
+    bool operator==(const PersonalRecord& pr) const {
+        return phoneNumber == pr.phoneNumber;  // Compare by phone number
+    }
+
+    bool operator<(const PersonalRecord& pr) const {
+        return name < pr.name;  // Sort by name (alphabetically)
+    }
+};
+
+vector<PersonalRecord> records;
+
+void print(const PersonalRecord& pr);
+void display();
+void insert();
+void search();
+void sortByName();
+void deleteRecord();
+bool compareByPhoneNumber(const PersonalRecord& pr1, const PersonalRecord& pr2);
+
+int main() {
+    int choice;
+    do {
+        cout << "\n* * * * * Personal Records Menu * * * * *";
+        cout << "\n1. Insert Record";
+        cout << "\n2. Display Records";
+        cout << "\n3. Search Record by Phone Number";
+        cout << "\n4. Sort Records by Name";
+        cout << "\n5. Delete Record";
+        cout << "\n6. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+        switch (choice) {
+        case 1:
+            insert();
+            break;
+        case 2:
+            display();
+            break;
+        case 3:
+            search();
+            break;
+        case 4:
+            sortByName();
+            break;
+        case 5:
+            deleteRecord();
+            break;
+        case 6:
+            cout << "Exiting the program. Thank you!";
+            break;
+        default:
+            cout << "Invalid choice! Please try again.";
+        }
+    } while (choice != 6);
+    return 0;
+}
+
+void insert() {
+    PersonalRecord pr;
+    cout << "\nEnter Name: ";
+    cin.ignore();  // To ignore the leftover newline character
+    getline(cin, pr.name);
+    cout << "Enter Date of Birth (YYYY-MM-DD): ";
+    getline(cin, pr.dob);
+    cout << "Enter Phone Number: ";
+    getline(cin, pr.phoneNumber);
+    records.push_back(pr);
+}
+
+void display() {
+    if (records.empty()) {
+        cout << "\nNo records to display!";
+        return;
+    }
+    for (const auto& pr : records) {
+        print(pr);
+    }
+}
+
+void print(const PersonalRecord& pr) {
+    cout << "\nName: " << pr.name;
+    cout << "\nDate of Birth: " << pr.dob;
+    cout << "\nPhone Number: " << pr.phoneNumber;
+    cout << "\n--------------------------";
+}
+
+void search() {
+    if (records.empty()) {
+        cout << "\nThe list is empty!";
+        return;
+    }
+    string searchPhone;
+    cout << "\nEnter Phone Number to search: ";
+    cin >> searchPhone;
+    auto it = find_if(records.begin(), records.end(), [searchPhone](const PersonalRecord& pr) {
+        return pr.phoneNumber == searchPhone;
+    });
+    if (it == records.end()) {
+        cout << "\nRecord not found!";
+    } else {
+        cout << "\nRecord found:";
+        print(*it);
+    }
+}
+
+void sortByName() {
+    if (records.empty()) {
+        cout << "\nNo records to sort!";
+        return;
+    }
+    sort(records.begin(), records.end());
+    cout << "\nRecords sorted by Name:";
+    display();
+}
+
+void deleteRecord() {
+    if (records.empty()) {
+        cout << "\nNo records to delete!";
+        return;
+    }
+    string deletePhone;
+    cout << "\nEnter Phone Number to delete: ";
+    cin >> deletePhone;
+    auto it = find_if(records.begin(), records.end(), [deletePhone](const PersonalRecord& pr) {
+        return pr.phoneNumber == deletePhone;
+    });
+    if (it == records.end()) {
+        cout << "\nRecord not found!";
+    } else {
+        records.erase(it);
+        cout << "\nRecord deleted successfully!";
+    }
+}

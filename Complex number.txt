@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+
+class complex {
+private:
+    float R, I;
+
+public:
+    complex();
+    friend istream& operator>>(istream&, complex&);
+    friend ostream& operator<<(ostream&, complex&);
+    complex operator+(complex&);
+    complex operator*(complex&);
+};
+
+complex::complex() {
+    R = 0;
+    I = 0;
+}
+
+istream& operator>>(istream& in, complex& c) {
+    cout << "Enter real: ";
+    in >> c.R;
+    cout << "Enter imaginary: ";
+    in >> c.I;
+    return in;
+}
+
+ostream& operator<<(ostream& out, complex& c) {
+    out << "\t" << c.R << " + " << c.I << "i";
+    return out;
+}
+
+complex complex::operator+(complex& c) {
+    complex temp;
+    temp.R = this->R + c.R;
+    temp.I = this->I + c.I;
+    return temp;
+}
+
+complex complex::operator*(complex& c) {
+    complex temp;
+    temp.R = this->R * c.R;
+    temp.I = this->I * c.I;
+    return temp;
+}
+
+int main() {
+    complex c1, c2, c3;
+    cout << "Enter first complex number: "<<endl;
+    cin >> c1;
+    cout << "Enter second complex number: "<<endl;
+    cin >> c2;
+    cout << "\n First complex number: " << c1 << endl;
+    cout << "\n Second complex number: " << c2 << endl;
+
+    c3 = c1 + c2;
+    cout << "\n Addition: " << c3 << endl;
+
+    c3 = c1 * c2;
+    cout << "\n Multiplication: " << c3 << endl;
+
+    return 0;
+}

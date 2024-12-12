@@ -1,0 +1,48 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+   fstream file;
+
+   file.open("sample.txt", ios::out);
+
+   if (!file)
+   {
+       cout << "Error in creating file!!!" << endl;
+       return 0;
+   }
+
+   cout << "File created successfully." << endl;
+
+   string name;
+   cout << "Enter the name of the student: " << endl;
+   getline(cin, name);
+
+   int rollno;
+   cout << "Enter the roll number of the student: " << endl;
+   cin >> rollno;
+
+   file << name << endl;
+   file << rollno << endl;
+   file.close();
+
+   file.open("sample.txt", ios::in);
+
+   if (!file)
+   {
+       cout << "Error in opening file!!!" << endl;
+       return 0;
+   }
+
+   string content;
+   cout << "File content: " << endl;
+   while (getline(file, content))
+   {
+       cout << content << endl;
+   }
+
+   file.close();
+   return 0;
+}
